@@ -324,6 +324,9 @@ if __name__ == '__main__':
 
     dates = pd.read_csv(os.path.join(data_path, 'team_gamelogs.csv'),usecols=['Date'])
     dates = list(set(pd.to_datetime(dates['Date']).to_list()))
+    already_have_dates = pd.read_csv(os.path.join(data_path, 'bullpens.csv'),usecols=['End Date'])
+    already_have_dates = list(set(pd.to_datetime(already_have_dates['End Date']).to_list()))
+    dates = list(set(dates).difference(set(already_have_dates)))
     data_pull = BaseballScraper()
     # game_date = dt.date(season, 12, 1)
     df = pd.DataFrame()
@@ -333,4 +336,5 @@ if __name__ == '__main__':
     if 'bullpens.csv' in os.listdir(data_path):
         old_df = pd.read_csv(os.path.join(data_path, 'bullpens.csv'))
         df = pd.concat([old_df, df]).drop_duplicates(subset=['Team', 'Season','End Date'], keep='last')
+    df['End Date'] = pd.to_datetime(df['End Date'])
     df.to_csv(os.path.join(data_path, 'bullpens.csv'), index=False)
