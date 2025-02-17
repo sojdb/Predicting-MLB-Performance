@@ -338,3 +338,4 @@ if __name__ == '__main__':
         df = pd.concat([old_df, df]).drop_duplicates(subset=['Team', 'Season','End Date'], keep='last')
     df['End Date'] = pd.to_datetime(df['End Date'])
     df.to_csv(os.path.join(data_path, 'bullpens.csv'), index=False)
+    #edit to remove, getting to github
